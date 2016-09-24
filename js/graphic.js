@@ -110,6 +110,7 @@ function drawGraphic() {
 }
 
 function displayError() {
+    $graphic.empty();
     var error = d3.select("body").append("div")
         .attr("class", "error")
         .text("Sorry, there was an error with your data");
