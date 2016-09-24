@@ -9,6 +9,8 @@ var error;
 function drawGraphic() {
     if (error) {
         return;
+    } else {
+        d3.select("body").selectAll("error").remove();
     }
     var margin = { top: 10, right: 15, bottom: 25, left: 35 };
     var width = $graphic.width() - margin.left - margin.right;
@@ -115,7 +117,9 @@ function drawGraphic() {
 
 function displayError() {
     $graphic.empty();
-    var error = d3.select("body").append("div")
+
+    d3.select("body").select("error").remove();
+    d3.select("body").append("error")
         .attr("class", "error")
         .text("Sorry, there was an error with your data");
 }
