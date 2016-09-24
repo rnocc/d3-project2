@@ -109,17 +109,28 @@ function drawGraphic() {
         .call(yAxis);
 }
 
-
+function displayError() {
+    var error = d3.select("body").append("div")
+        .attr("class", "error")
+        .text("Sorry, there was an error with your data");
+}
 function GetCsvData(csv) {
     if (Modernizr.svg) { // if svg is supported, draw dynamic chart
+        var error;
         graphic_data = d3.csv.parse(csv);
 
         graphic_data.forEach(function(d) {
             d.date = d3.time.format('%Y-%m').parse(d.date);
             d.jobs = d.jobs / 1000;
+            if (!d.jobs && d.jobs !== 0) {
+                displayError();
+                error = true;
+            }
         });
 
-        drawGraphic();
+        if (!error) {
+            drawGraphic();
+        }
         window.onresize = drawGraphic;
     }
 }
