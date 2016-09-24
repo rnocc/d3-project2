@@ -122,18 +122,16 @@ function drawGraphic() {
 }
 
 
-$(window).load(function() {
+function GetCsvData(csv) {
     if (Modernizr.svg) { // if svg is supported, draw dynamic chart
-        d3.csv(graphic_data_url, function(error, data) {
-            graphic_data = data;
+        graphic_data = d3.csv.parse(csv);
 
-            graphic_data.forEach(function(d) {
-                d.date = d3.time.format('%Y-%m').parse(d.date);
-                d.jobs = d.jobs / 1000;
-            });
-
-            drawGraphic();
-            window.onresize = drawGraphic;
+        graphic_data.forEach(function(d) {
+            d.date = d3.time.format('%Y-%m').parse(d.date);
+            d.jobs = d.jobs / 1000;
         });
+
+        drawGraphic();
+        window.onresize = drawGraphic;
     }
-});
+}
