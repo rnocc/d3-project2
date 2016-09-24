@@ -10,7 +10,7 @@ function drawGraphic() {
     if (error) {
         return;
     } else {
-        d3.select("body").selectAll("error").remove();
+        d3.select("body").selectAll(".error").remove();
     }
     var margin = { top: 10, right: 15, bottom: 25, left: 35 };
     var width = $graphic.width() - margin.left - margin.right;
@@ -115,13 +115,17 @@ function drawGraphic() {
         .call(yAxis);
 }
 
-function displayError() {
+function displayError(errorData) {
     $graphic.empty();
 
-    d3.select("body").select("error").remove();
-    d3.select("body").append("error")
+    d3.select("body").select(".error").remove();
+    d3.select("body").append("div")
         .attr("class", "error")
-        .text("Sorry, there was an error with your data");
+        .style("opacity", 0)
+        .text("Sorry, there was an error with your data: " + errorData.date + ',' + errorData.jobs)
+        .transition()
+            .duration(1000)
+            .style("opacity", 100);
 }
 function GetCsvData(csv) {
     error = false;
@@ -129,11 +133,14 @@ function GetCsvData(csv) {
         graphic_data = d3.csv.parse(csv);
 
         graphic_data.forEach(function(d) {
-            d.date = d3.time.format('%Y-%m').parse(d.date);
-            d.jobs = d.jobs / 1000;
-            if (!d.jobs && d.jobs !== 0) {
-                displayError();
+            var formattedJobs = d.jobs / 1000;
+            var formattedDate = d3.time.format('%Y-%m').parse(d.date);
+            if (!formattedJobs && formattedJobs !== 0) {
+                displayError(d);
                 error = true;
+            } else {
+                d.jobs = formattedJobs;
+                d.date = formattedDate;
             }
         });
 
