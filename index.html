@@ -85,6 +85,27 @@
             stroke-width: 3px;
             stroke: #11605E;
         }
+
+        rect {
+          font: 10px sans-serif;
+          background-color: steelblue;
+          text-align: right;
+          display: inline-block;
+          color: white;
+        }
+
+        rect:hover {
+            background-color: lightsteelblue;
+            opacity: 0.9;
+        }
+        #graphic {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        rect {
+          fill: steelblue;
+        }
     </style>
 
 </head>
@@ -166,9 +187,9 @@ date,jobs
 2014-01,15240.2
 2014-02,15238.3
 2014-03,15259.6
-    </textarea>
+</textarea>
     <button type="button" onclick="GetCsvData(document.getElementById('csv').value)">Build Chart</button>
-    
+
     <h1>Retail employment, in millions (2008-2014)</h1>
 
     <div id="graphic"><img src="fallback.png" alt="[Chart]" /></div>

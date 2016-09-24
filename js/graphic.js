@@ -85,6 +85,20 @@ function drawGraphic() {
         })
     ]);
 
+    var barWidth = width / graphic_data.length;
+    var bar = svg.selectAll("g")
+                .data(graphic_data)
+            .enter().append("g")
+                .attr("transform", function(d, i) { 
+                    var x = i * barWidth;
+                    var h = y(d.jobs); 
+                    return "translate(" + x + "," + h + ")"; 
+                });
+
+    bar.append("rect")
+    .attr("width", barWidth + "px")
+    .attr("height", function(d) { return height - y(d.jobs) + "px"; });
+
     svg.append('g')
         .attr('class', 'x axis')
         .attr('transform', 'translate(0,' + height + ')')
@@ -93,32 +107,6 @@ function drawGraphic() {
     svg.append('g')
         .attr('class', 'y axis')
         .call(yAxis);
-
-    svg.append('g')
-        .attr('class', 'x grid')
-        .attr('transform', 'translate(0,' + height + ')')
-        .call(x_axis_grid()
-            .tickSize(-height, 0, 0)
-            .tickFormat('')
-        );
-
-    svg.append('g')
-        .attr('class', 'y grid')
-        .call(y_axis_grid()
-            .tickSize(-width, 0, 0)
-            .tickFormat('')
-        );
-
-    svg.append('g').selectAll('path')
-        .data(d3.entries(lines))
-        .enter()
-        .append('path')
-            .attr('class', function(d, i) {
-                return 'line line-' + i;
-            })
-            .attr('d', function(d) {
-                return line(d.value);
-            });
 }
 
 
