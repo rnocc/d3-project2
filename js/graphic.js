@@ -4,8 +4,12 @@ var graphic_data;
 var graphic_aspect_width = 16;
 var graphic_aspect_height = 9;
 var mobile_threshold = 500;
+var error;
 
 function drawGraphic() {
+    if (error) {
+        return;
+    }
     var margin = { top: 10, right: 15, bottom: 25, left: 35 };
     var width = $graphic.width() - margin.left - margin.right;
     var height = Math.ceil((width * graphic_aspect_height) / graphic_aspect_width) - margin.top - margin.bottom;
@@ -116,8 +120,8 @@ function displayError() {
         .text("Sorry, there was an error with your data");
 }
 function GetCsvData(csv) {
+    error = false;
     if (Modernizr.svg) { // if svg is supported, draw dynamic chart
-        var error;
         graphic_data = d3.csv.parse(csv);
 
         graphic_data.forEach(function(d) {
