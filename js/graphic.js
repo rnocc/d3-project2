@@ -153,7 +153,8 @@ function GetCsvData(csv) {
         graphic_data.forEach(function(d) {
             var formattedJobs = d.jobs / 1000;
             var formattedDate = d3.time.format('%Y-%m').parse(d.date);
-            if (!formattedJobs && formattedJobs !== 0) {
+
+            if (!formattedDate || !formattedJobs && formattedJobs !== 0) {
                 displayError(d);
                 error = true;
             } else {
