@@ -6,6 +6,11 @@ var graphic_aspect_height = 9;
 var mobile_threshold = 500;
 var error;
 
+// Define the div for the tooltip
+var tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
 function drawGraphic() {
     if (error) {
         return;
@@ -99,6 +104,19 @@ function drawGraphic() {
                     var x = i * barWidth;
                     var h = y(d.jobs); 
                     return "translate(" + x + "," + h + ")"; 
+                }).on("mouseover", function(d) {
+                    tooltip.style("opacity", 0.8);
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    tooltip.html(d.jobs.toFixed(2))
+                        .style("left", (d3.event.pageX + 5) + "px")
+                        .style("top", (d3.event.pageY - 5) + "px");
+                    })
+                .on("mouseout", function(d) {
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
                 });
 
     bar.append("rect")
